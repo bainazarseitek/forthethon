@@ -1,0 +1,7 @@
+{
+  "crop_xyxy": [0, 240, 440, 640],
+  "selection": "One fixed rectangle selected by inspecting only representative train frames, before crop inference. Same rectangle for all train/validation videos; no per-video adjustment or validation tuning.",
+  "source": "review/generated/action-pilot",
+  "baseline": "review/generated/action-normalization",
+  "view": "Source-pixel crop [0,240,440,640], then identical aspect-preserving bicubic resize/padding to 224; original source frames/PTS, native model normalization. Train and validation only."
+}

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forte · VideoMAE и CLIP: обучение действий</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="embeddings.css"><link rel="stylesheet" href="protocol.css">
+  <style>
+    .action-inspect{display:grid;grid-template-columns:minmax(230px,.7fr) minmax(400px,1.3fr);gap:28px}.action-inspect video{height:430px;object-fit:contain}.input-strip{width:100%;max-width:672px;display:block;margin-top:16px}.prediction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.prediction{border:1px solid var(--line);background:white;border-radius:7px;padding:12px;font-size:12px}.prediction strong{display:block;font-size:16px;margin-top:7px}.prediction.wrong{border-color:#b66b70;background:#fff0f1}.window-buttons button.wrong{border-bottom-color:var(--red)}.window-buttons button.right{border-bottom-color:var(--green)}.window-buttons button.active{outline:2px solid var(--ink)}.action-score{display:grid;grid-template-columns:150px repeat(3,1fr);gap:12px;align-items:center;margin:8px 0;font-size:12px}.action-score .bar{display:block;height:5px;background:#327a92;max-width:100%}.action-score small{font-variant-numeric:tabular-nums}.timeline-image{margin:12px 0}.split-videos{font-size:12px;max-width:650px}.split-videos span{display:inline-block;padding:2px 5px;margin:2px;background:#e7ecee;border-radius:3px}.legend-action{font-size:12px;color:var(--muted)}#window-title{font-size:17px}#source-note{font-size:13px}#scope{max-width:1050px}.plot-link{display:block}#confusion{max-width:1300px}.score-heading{font-weight:600}.score-help{font-size:12px;color:var(--muted)}@media(max-width:800px){.action-inspect{grid-template-columns:1fr}.action-inspect video{height:350px}.prediction-grid{gap:6px}.prediction{padding:8px}.prediction strong{font-size:13px}.action-score{grid-template-columns:120px repeat(3,1fr);gap:6px}}
+  </style>
+  <script src="generated/action-pilot/results.js" defer></script><script src="generated/action-normalization/results.js" defer></script><script src="actions.js" defer></script>
+</head>
+<body>
+<header><div><p class="eyebrow">FORTE / ДЕЙСТВИЯ / ОПЫТ 04</p><h1>VideoMAE против CLIP.<br>Проверка на других видео.</h1>
+<p><a href="diagnosis.html">Разбор ошибок: ручной пересчёт, train-примеры и embeddings →</a></p>
+<p><a href="generated/action-videomaev2/report.html">Новый опыт: VideoMAEv2 против VideoMAE v1 и CLIP →</a></p>
+<p><a href="generated/action-crop/report.html">Новый опыт: полный кадр и кроп рук/рабочего стола →</a></p></div><a href="index.html">← Все видео</a></header>
+<main>
+<p><a href="generated/action-5090/report.html">RTX 5090: повтор трёх encoder, метрики по действиям →</a></p>
+  <p class="intro">Шесть наблюдаемых действий из ручной разметки. Энкодеры заморожены; одинаковые линейные классификаторы обучены на наших примерах. Парные сценарии и дубликаты остаются в одной выборке.</p>
+  <p id="load-error" class="warning" hidden>Результаты ещё не готовы. Инструкция запуска — в README.</p>
+  <section id="normalization" class="panel" aria-labelledby="normalization-heading" hidden>
+    <p class="eyebrow">ОПЫТ 04B / ТОЛЬКО VALIDATION / СОХРАНЁННЫЕ EMBEDDINGS</p><h2 id="normalization-heading">Что изменила нормализация</h2>
+    <p>Среднее и масштаб каждого признака рассчитаны только по 123 окнам train. Оценка — на прежних 37 окнах validation из шести видео. Разделение, кадры и энкодеры сохранены.</p>
+    <div id="normalization-metrics" class="metric-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"></div>
+    <p id="normalization-fixed" class="small"></p>
+    <p class="warning">«До» — прежняя L2-нормализация вектора. «После» — дополнительно вычитаем среднее train и делим на стандартное отклонение train по каждой координате; повторной L2-нормализации нет. C выбирается по validation из прежней сетки. Test в этом опыте не оценивается; это проверка гипотезы на validation.</p>
+    <a class="plot-link" href="generated/action-normalization/validation.png" target="_blank"><img class="plot" src="generated/action-normalization/validation.png" alt="Macro F1 на validation до и после стандартизации для каждого C у VideoMAE и CLIP"></a>
+    <div class="table-scroll"><table id="normalization-classes"><caption>F1 по действию · validation · выбранный C каждого варианта</caption><thead><tr><th>Действие</th><th>Окон</th><th>VideoMAE до</th><th>VideoMAE после</th><th>CLIP до</th><th>CLIP после</th></tr></thead><tbody></tbody></table></div>
+    <p id="normalization-train" class="small muted"></p>
+    <details><summary>Все C, проверки и сохранённые параметры</summary>
+      <div class="table-scroll"><table id="normalization-grid"><thead><tr><th>Модель</th><th>C</th><th>F1 до</th><th>F1 после</th></tr></thead><tbody></tbody></table></div>
+      <p id="normalization-audit" class="small"></p>
+      <p><a href="generated/action-normalization/results.json">Результаты и проверки JSON</a> · <a href="generated/action-normalization/scores.csv">Предсказания validation CSV</a> · <a href="generated/action-normalization/pipelines.npz">Средние, масштабы и головы</a></p>
+    </details>
+  </section>
+  <h2 style="margin-top:32px">Предыдущий опыт: test без стандартизации признаков</h2>
+  <div id="metrics" class="metric-grid"></div>
+  <p id="conclusion"></p>
+  <p class="warning" id="scope">Это классификация действий на заранее выделенных фрагментах, а не детектор нарушений. Пустой стол, ожидание, неизвестные действия и промежутки без подходящей разметки не оцениваются. Соседние окна одной записи связаны между собой; новые камеры и неизвестные нарушения здесь не проверены.</p>
+
+  <section class="panel" aria-labelledby="inspect-heading">
+    <div class="section-heading"><div><p class="eyebrow">01 / ТОЛЬКО ФИНАЛЬНАЯ ПРОВЕРКА</p><h2 id="inspect-heading">Действия по времени</h2></div><label>Видео <select id="source"></select></label></div>
+    <p class="legend-action">Кнопки — конец двухсекундного окна. Нижняя полоса: зелёная — VideoMAE угадал действие, красная — ошибся. Пропуски во времени не означают норму.</p>
+    <div id="windows" class="window-buttons"></div>
+    <div class="action-inspect">
+      <div><video id="player" controls playsinline preload="metadata"></video><div class="toolbar"><button id="play-window">▶ Посмотреть фрагмент</button><output id="clock"></output></div><p id="play-error" class="warning" hidden>Видео не удалось воспроизвести. Попробуйте встроенные кнопки плеера.</p></div>
+      <div>
+        <h3 id="window-title"></h3><p id="source-note"></p>
+        <div id="predictions" class="prediction-grid"></div>
+        <div class="action-score score-heading"><span>Действие</span><span>VideoMAE<br>+ обучение</span><span>CLIP<br>+ обучение</span><span>CLIP<br>+ текст</span></div>
+        <div id="scores"></div>
+        <p class="score-help">Первые две колонки — выходы обученных классификаторов; они не калиброваны. Последняя — косинусная близость к описанию, шкала другая.</p>
+        <img id="input" class="input-strip" alt="Первый, средний и последний из 16 одинаковых кадров, переданных обеим моделям"><p class="score-help">Три из 16 входных кадров. Сохранён весь кадр, добавлены поля. Мелкие предметы занимают мало пикселей.</p>
+      </div>
+    </div>
+    <a class="plot-link" href="generated/action-pilot/timelines.png" target="_blank"><img class="plot timeline-image" src="generated/action-pilot/timelines.png" alt="Оценки шести действий по времени для отложенных X-26 и X-27"></a>
+  </section>
+
+  <section class="panel" aria-labelledby="errors-heading"><p class="eyebrow">02 / ГДЕ МОДЕЛИ ПУТАЮТСЯ</p><h2 id="errors-heading">Ошибки на отложенных видео</h2>
+    <p class="small muted">Строка — действие по разметке, столбец — предсказание. Числа — окна, цвет нормирован внутри строки. Macro F1 даёт одинаковый вес каждому из шести действий.</p>
+    <a class="plot-link" href="generated/action-pilot/confusion.png" target="_blank"><img id="confusion" class="plot" src="generated/action-pilot/confusion.png" alt="Матрицы ошибок VideoMAE с классификатором, CLIP с классификатором и CLIP с текстом"></a>
+    <div class="table-scroll"><table id="class-results"><caption>Примеры действий и F1 на test</caption><thead><tr><th>Действие</th><th>Окон train</th><th>Окон test</th><th>VideoMAE + обучение</th><th>CLIP + обучение</th><th>CLIP + текст</th></tr></thead><tbody></tbody></table></div>
+    <div class="table-scroll"><table id="video-results"><caption>Доля верных ответов по каждому отложенному видео</caption><thead><tr><th>Видео</th><th>Окон</th><th>VideoMAE + обучение</th><th>CLIP + обучение</th><th>CLIP + текст</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="split-heading"><p class="eyebrow">03 / ЗАЩИТА ОТ УТЕЧКИ МЕЖДУ ВЫБОРКАМИ</p><h2 id="split-heading">Какие видео модель видела при обучении</h2>
+    <div class="table-scroll"><table id="splits"><thead><tr><th>Выборка</th><th>Видео с окнами</th><th>Окон</th><th>Интервалов</th></tr></thead><tbody></tbody></table></div>
+    <p class="small muted">Сначала зафиксировано разделение исходных видео, затем нарезаны окна. Связанные пары объединены. X-47 и X-48 — точные дубликаты X-4 и X-5: назначены в test, но повторно не используются. Видео без выбранных действий также не дают окон. X-26/X-27 целиком находятся в test.</p>
+    <p class="warning">Эти записи уже просматривались в прошлых опытах. Это отложенная выборка для нового обучения, но не ранее неизвестный внешний набор. Разметка описывает эпизоды приблизительно; «работа с сейфом» не доказывает, что деньги убраны или замок заперт.</p>
+    <div class="table-scroll"><table id="selection"><caption>Подбор только на validation · фиксированная сетка C</caption><thead><tr><th>Модель</th><th>C</th><th>F1 train</th><th>F1 validation</th><th>F1 test</th><th>Accuracy, среднее по test-видео</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <details><summary>Как повторить и что именно обучалось</summary><pre id="run-info"></pre>
+    <p class="small">У VideoMAE усредняются все конечные пространственно-временные токены; декодер и маскирование не используются. У CLIP усредняются нормированные признаки 16 кадров. Оба вектора имеют размерность 768 и нормируются. Головы — logistic regression с балансировкой классов. Выбор C — по macro F1 на validation; при равенстве выбирается меньшее. После выбора повторного обучения на validation нет.</p>
+    <p class="small">Ни метки «нарушение/норма», ни идентификаторы законов не подаются классификатору. Модель не имеет класса «неизвестно»; её уверенность за пределами этих шести действий не проверена. Память протокола в этом опыте не изменялась.</p>
+    <p><a href="generated/action-pilot/results.json">Результаты JSON</a> · <a href="generated/action-pilot/scores.csv">Все оценки CSV</a> · <a href="generated/action-pilot/prepared.json">Окна, метки и разделение</a> · <a href="generated/action-pilot/heads.npz">Обученные головы</a> · <a href="https://huggingface.co/MCG-NJU/videomae-base" target="_blank" rel="noreferrer">VideoMAE: модель и лицензия</a></p>
+  </details>
+  <footer>Расчёт признаков и обучение на собственной gpu-host · Без API распознавания · Классификация известных действий, не проверка соблюдения закона</footer>
+</main>
+</body>
+</html>

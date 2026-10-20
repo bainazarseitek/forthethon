@@ -1,0 +1,27 @@
+.DS_Store
+.obsidian/
+assets/videos/
+assets/*.xlsx
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/.env.local
+frontend/.env.*.local
+
+.venv/
+var/
+__pycache__/
+.pytest_cache/
+.env
+review/generated/
+open.zip
+out/
+
+# Local models, experiment outputs and temporary build artifacts
+model/
+output/
+runs/
+tmp/
+.codex-presentation-build/
+docs/pitch/

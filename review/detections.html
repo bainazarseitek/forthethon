@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forte · Деньги, кассир и память</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="embeddings.css"><link rel="stylesheet" href="protocol.css">
+  <style>.detector-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px}.detector-pair video,.detector-pair img{width:100%;height:430px;object-fit:contain;background:#e7ecee;border-radius:6px}.object-strip{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0}.object-strip img{width:100%;max-height:200px;object-fit:contain;background:#e7ecee}.score-list{max-width:650px}.detector-note{font-size:13px;color:var(--muted)}.variant-select{margin-top:20px}#scores{margin-top:8px}#box-list{font-size:12px}#table-image{image-rendering:auto}@media(max-width:600px){.detector-pair{gap:8px}.detector-pair video,.detector-pair img{height:310px}.object-strip{grid-template-columns:1fr}.detector-pair h3{font-size:14px}}</style>
+  <script src="generated/detector-pilot/results.js" defer></script><script src="generated/detector-pilot-patch/results.js" defer></script><script src="detections.js" defer></script>
+</head>
+<body>
+<header><div><p class="eyebrow">FORTE / X-26 + X-27 / ОПЫТ 03</p><h1>Деньги и кассир —<br>отдельные наблюдения.</h1></div><a href="protocol.html">← Предыдущий опыт CLIP</a></header>
+<main>
+  <p class="intro">Grounding DINO ищет деньги, руки и людей. CLIP оценивает действия по прежним признакам. Алгоритм памяти сохранён. Проверяем отдельно улучшение наблюдений и пользу памяти.</p>
+  <p id="load-error" class="warning" hidden>Нет результатов. Выполните расчёт и анализ по инструкции в README.</p>
+  <div class="table-scroll"><table id="comparison"><caption>Все прогоны на одинаковых 47 моментах</caption><thead><tr><th>Вариант</th><th>AUC</th><th>Найдены / 12</th><th>Пропущены</th><th>Ложные / 35</th><th>Первая тревога X-26</th></tr></thead><tbody></tbody></table></div>
+  <p class="detector-note">47 моментов — соседние точки одной пары. AUC оценивает порядок значений, а не долю правильных ответов. Все тревоги получены при одном пороге 0.5; шкалы разных моделей не являются калиброванными вероятностями.</p>
+  <label class="variant-select">Вход детектора денег <select id="variant"><option value="wide">Стол целиком · первый прогон</option><option value="patch">Крупный участок · второй прогон</option></select></label>
+  <p class="warning">Второй масштаб проверен после просмотра первого результата. Это исследовательское сравнение на знакомой паре, не независимая проверка качества. Пороги и геометрия рабочего места одинаковы.</p>
+  <div id="summary" class="metric-grid"></div><p id="conclusion" class="warning"></p>
+
+  <section class="panel" aria-labelledby="inspect-heading">
+    <div class="section-heading"><div><p class="eyebrow">01 / РАМКИ И РЕШЕНИЯ ПО ВРЕМЕНИ</p><h2 id="inspect-heading">Что увидел детектор</h2></div><label>Видео <select id="source"><option>X-26</option><option>X-27</option></select></label></div>
+    <div class="toolbar"><button id="play">▶ Воспроизвести</button><button id="prev" aria-label="Предыдущая оценка">←</button><label class="scrub">Время <input id="time" type="range" min="0" step="1" value="0"></label><button id="next" aria-label="Следующая оценка">→</button><output id="timestamp" aria-live="polite"></output></div>
+    <p id="play-error" class="warning" hidden>Не удалось воспроизвести видео. Попробуйте встроенные кнопки плеера.</p>
+    <div class="detector-pair"><div><h3>Исходное видео</h3><video id="player" controls playsinline preload="metadata"></video></div><div><h3>Последний обработанный кадр</h3><img id="boxes-image" alt="Рамки детектора и фиксированные зоны на текущем кадре"></div></div>
+    <p class="detector-note">Голубой прямоугольник — зона кассира. Оранжевый многоугольник — столешница. Цветные рамки с подписями — обнаружения выше порога; серые «cash?» — слабые кандидаты. Человек у двери или за стеклом сам по себе не означает присутствие у стола.</p>
+    <p id="manual" class="small muted"></p>
+    <div id="evidence">
+      <div class="object-strip"><div><img id="table-image" alt="Увеличенная область денег с рамками"><p id="table-state"></p><p id="presence-state"></p></div><div><div id="risk" class="risk-row"></div><p id="reason" class="small"></p><p id="memory-state" class="small muted"></p></div></div>
+      <details><summary>Все кандидаты, включая слабые рамки</summary><pre id="box-list"></pre></details>
+      <h3>Действия CLIP · те же оценки, что раньше</h3><div id="action-scores" class="score-list"></div>
+      <p class="detector-note">Новые детекторы не исправляют распознавание действий CLIP. Похожесть на «закрытие сейфа» не подтверждает, что деньги внутри.</p>
+      <p><strong>Память действий:</strong> <span id="history"></span></p><p id="expected" class="small muted"></p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="timeline-heading"><p class="eyebrow">02 / ВРЕМЕННЫЕ ГРАФИКИ</p><h2 id="timeline-heading">Наблюдения и итоговая тревога</h2>
+    <p class="muted">Действия CLIP; деньги на столе; присутствие кассира в зоне; три оценки тревоги. Красная область — нарушение по прежней ручной разметке. Перестановка действий сама по себе тревогу не вызывает.</p>
+    <a id="plot-link" target="_blank"><img id="plot" class="plot" alt="Графики денег, присутствия кассира и результата памяти для X-26 и X-27"></a>
+  </section>
+  <details><summary>Проверка наблюдений, метод и ограничения</summary>
+    <p id="audit"></p>
+    <p>Для присутствия отдельно показаны 29 явно размеченных точек: сидящий кассир в начале и поздние кадры, где он уже отошёл. Полная проверка на 36 точках сохраняет спорную границу ухода. Метки и исходные видео не исправлялись под детектор.</p>
+    <p>Положительное свидетельство денег: рамка выше 0.35, центр на столешнице, менее 35% рамки перекрыто обнаруженной рукой. Центр рамки человека проверяется по фиксированной зоне; порог присутствия — 0.5. Слабые рамки остаются неопределёнными. При низкой оценке денег и отсутствии обнаруженного перекрытия руками пустота лишь предполагается: пропуск предмета или руки всё ещё возможен.</p>
+    <p>Алгоритм памяти прежний: два подтверждения денег, сохранение свидетельства до шести секунд, сброс после двух наблюдений предполагаемой пустоты. Варианты с памятью и без неё получают одинаковые текущие наблюдения. Порядок действий не задан жёстко; CLIP ведёт историю, а тревога определяется состоянием денег и присутствием кассира.</p>
+    <p>Шкала поддержки денег линейно растёт от 0 при оценке рамки 0.15 до 1 при 0.35. Поэтому предварительная тревога может появиться раньше строгого подтверждения для памяти. Пороги требуют калибровки на других записях; на этой паре они не подбирались.</p>
+    <pre id="run-info"></pre><p><a id="json-link">Результаты JSON</a> · <a id="csv-link">Оценки CSV</a> · <a id="raw-link">Исходные рамки</a> · <a href="https://huggingface.co/IDEA-Research/grounding-dino-base" target="_blank" rel="noreferrer">Модель Grounding DINO</a></p>
+  </details>
+  <footer>Самостоятельный расчёт на gpu-host · Без API распознавания · Фиксированная камера и одна пара · Другие ракурсы и новые нарушения не проверены</footer>
+</main>
+</body>
+</html>

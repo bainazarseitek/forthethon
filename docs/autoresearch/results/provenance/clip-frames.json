@@ -1,0 +1,15 @@
+{
+ "shape": [
+  160,
+  16,
+  768
+ ],
+ "min_cosine_vs_saved_clip": 0.9999998807907104,
+ "mean_cosine": 1.0,
+ "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+ "weights_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+ "gpu": "NVIDIA GeForce RTX 5090",
+ "script_sha256": "4bf5cd1a11f7b0cd65123e4ae670b99b134ff38367dba5dddf8585d9460b77d5",
+ "npz_sha256": "84d9f9a04a9174911373328ad811b7485870aa9cd8b8ed3f1842277579003bf3",
+ "test_evaluated": false
+}

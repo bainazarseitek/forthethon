@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forte · Clip review</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="generated/manifest.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<header><div><p class="eyebrow">FORTE / DATASET REVIEW</p><h1>See the sequence.</h1></div><p id="summary" class="muted"></p></header>
+<main>
+  <p class="intro">Original labels, manual observations, and the frames behind them. Highlighted intervals come from your annotations; they are not model predictions.</p>
+  <nav aria-label="Review views">
+    <button type="button" data-view="review" aria-pressed="true">Review clips</button>
+    <button type="button" data-view="compare" aria-pressed="false">Compare examples</button>
+    <button type="button" data-view="overview" aria-pressed="false">All timelines</button>
+    <a href="embeddings.html">Video embeddings · 3 пары</a>
+    <a href="protocol.html">Текст, деньги и память · X-26/X-27</a>
+    <a href="detections.html">Отдельная детекция денег и кассира</a>
+    <a href="actions.html">VideoMAE и CLIP · обучение действий</a>
+  </nav>
+  <section id="review">
+    <div class="toolbar">
+      <button id="previous" type="button">← Previous</button>
+      <label>Clip <select id="clip-select"></select></label>
+      <button id="next" type="button">Next →</button>
+      <label class="check"><input id="autonext" type="checkbox"> Play next clip automatically</label>
+    </div>
+    <div id="clip-heading" aria-live="polite"></div>
+    <div class="review-grid">
+      <div>
+        <video id="player" controls playsinline preload="metadata"></video>
+        <div class="toolbar player-tools">
+          <button id="back" type="button">−1 sec</button><button id="forward" type="button">+1 sec</button>
+          <label>Speed <select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
+          <output id="clock">0.000 s</output>
+          <button id="jump-label" type="button">Go to official timestamp</button>
+        </div>
+        <p id="media-error" class="warning" role="alert" hidden>Video could not load. Rebuild the review assets and reopen this page.</p>
+      </div>
+      <aside>
+        <p class="eyebrow">MANUAL REVIEW</p>
+        <p id="manual-note"></p>
+        <p id="operation" class="muted" lang="ru"></p>
+        <div id="cautions"></div>
+        <h2>Current observations</h2>
+        <div id="active-events"></div>
+        <div id="pair-links" class="toolbar"></div>
+      </aside>
+    </div>
+    <div class="section-heading"><h2>Sequence of observations</h2><p class="legend"><span class="ok">Correct step</span><span class="viol">Flagged in notes</span><span class="uncertain">Uncertain / context</span></p></div>
+    <div id="event-list"></div>
+    <div class="section-heading"><h2>Timestamped filmstrip</h2><p class="muted">About every 2 seconds, plus event starts and extra frames around the official label. Click to seek.</p></div>
+    <div id="filmstrip"></div>
+    <details><summary>Full annotation and provenance</summary><pre id="source-text" lang="ru"></pre></details>
+  </section>
+  <section id="compare" hidden>
+    <div class="toolbar"><label>Comparison <select id="pair-select"></select></label><button id="play-both" type="button">Play both</button><button id="pause-both" type="button">Pause both</button></div>
+    <p class="muted">Scrub each clip to the step you want to compare, then play both. Equal clock times do not imply the same action.</p>
+    <div id="comparison" class="comparison"></div>
+  </section>
+  <section id="overview" hidden>
+    <div class="toolbar"><label>Show <select id="filter"><option value="all">All clips</option><option value="violation">Official violation labels</option><option value="clean">Official no-violation labels</option></select></label><label class="check"><input type="checkbox" id="unique" checked> One row per identical video</label></div>
+    <p class="muted">One shared time scale in seconds. Bars are manual event intervals; vertical marks are official timestamps. Click a row to inspect. Duplicate labels are retained together.</p>
+    <div id="timeline-chart"></div>
+    <h2>Patterns in the manual labels</h2>
+    <p class="muted">Number of unique video contents annotated with each event type. This describes this dataset, not the frequency of violations in banking.</p>
+    <div id="pattern-list"></div>
+  </section>
+  <footer>Local review only · Original Russian notes preserved · No automatic violation or anomaly score</footer>
+</main>
+</body>
+</html>

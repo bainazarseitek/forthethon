@@ -1,0 +1,24 @@
+{
+  "segment_sec": 30,
+  "cameras": [
+    {
+      "id": "kassa-1",
+      "name": "Касса 1",
+      "playlist": [
+        "assets/videos/Х-26.mov",
+        "assets/videos/Х-3.mov",
+        "assets/videos/Х-20.mov",
+        "assets/videos/Х-46.mov",
+        "assets/videos/Х-11.mov",
+        "assets/videos/Х-21.mov",
+        "assets/videos/Х-22.mov",
+        "assets/videos/Х-24.mov",
+        "assets/videos/Х-17.mov",
+        "assets/videos/Х-23.mov",
+        "assets/videos/Х-40.mov",
+        "assets/videos/Х-18.mov",
+        "assets/videos/Х-32.mov"
+      ]
+    }
+  ]
+}

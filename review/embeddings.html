@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forte · Эксперимент с video embeddings</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="embeddings.css">
+  <script src="generated/embedding-pilot/results.js" defer></script><script src="embeddings.js" defer></script>
+</head>
+<body>
+<header><div><p class="eyebrow">FORTE / LOCAL VIDEO EMBEDDINGS</p><h1>Где модель видит отличие.</h1></div><a href="index.html">← Все исходные видео</a></header>
+<main>
+  <p class="intro">Три пары, замороженная Video Swin и банк нормальных фрагментов. Проверяем, становится ли видео менее похожим на эталон в момент нарушения.</p>
+  <p><a href="protocol.html">Новый опыт X-26/X-27: тексты действий, деньги на столе и память →</a></p>
+  <p id="load-error" class="warning" hidden>Результаты ещё не созданы. Запустите локальный эксперимент по инструкции в README.</p>
+  <div id="metrics" class="metric-grid"></div>
+  <p class="muted small">AUC оценивает порядок оценок: 1 — все окна с нарушением выше нормальных, 0.5 — случайный порядок, 0 — обратный. Порог не подбирался. Окна перекрываются; это исследование шести записей, не оценка качества на новых видео.</p>
+
+  <section class="panel" aria-labelledby="match-heading">
+    <div class="section-heading"><div><p class="eyebrow">01 / СОПОСТАВЛЕННЫЕ ДЕЙСТВИЯ</p><h2 id="match-heading">Одно действие, разное состояние</h2></div><label>Эпизод <select id="match-select"></select></label></div>
+    <p id="match-note" class="muted"></p>
+    <div class="toolbar"><button id="match-play">▶ Оба фрагмента с начала</button><button id="match-pause">Пауза</button><strong id="match-distance"></strong></div>
+    <div id="matched-players" class="comparison"></div>
+    <p class="small muted">Cosine similarity показывает сходство признаков. Высокое сходство нормы и нарушения означает, что вектор может плохо отражать важную разницу. Сопоставление фаз приблизительное и взято из ручного разбора.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="retrieval-heading">
+    <div class="section-heading"><div><p class="eyebrow">02 / ПОИСК В БАНКЕ НОРМЫ</p><h2 id="retrieval-heading">Какой эталон модель выбрала сама</h2></div></div>
+    <div class="toolbar"><label>Пара <select id="query-pair"></select></label><label>Банк <select id="bank-select"><option value="own">Чистая запись той же пары</option><option value="other">Чистые записи других пар</option></select></label></div>
+    <p class="small muted">Выберите время. Цвет кнопки — ручная разметка, а не предсказание. Серые окна пересекают границу и не входят в AUC.</p>
+    <div id="query-windows" class="window-buttons" aria-label="Окна исходного видео"></div>
+    <div class="toolbar"><button id="retrieval-play">▶ Оба фрагмента с начала</button><button id="retrieval-pause">Пауза</button><strong id="retrieval-distance" aria-live="polite"></strong></div>
+    <div id="retrieval-players" class="comparison"></div>
+    <p id="retrieval-note" class="muted small"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="timeline-heading">
+    <p class="eyebrow">03 / ИЗМЕНЕНИЕ ВО ВРЕМЕНИ</p><h2 id="timeline-heading">Отдаляется ли нарушение от нормы?</h2>
+    <p class="muted">Каждая точка — окно около 2.13 секунды. Чем выше значение, тем меньше сходство с ближайшим нормальным фрагментом. Пунктир показывает результат без эталона этой пары. Вертикальная линия и цвет точек взяты из разметки.</p>
+    <a href="generated/embedding-pilot/timelines.png" target="_blank"><img class="plot" src="generated/embedding-pilot/timelines.png" alt="Расстояние до ближайшего нормального фрагмента во времени для трёх пар; цвета по ручной разметке"></a>
+  </section>
+  <section class="panel" aria-labelledby="map-heading">
+    <p class="eyebrow">04 / УСТРОЙСТВО ПРОСТРАНСТВА ПРИЗНАКОВ</p><h2 id="map-heading">Группируются действия, сцены или нарушения?</h2>
+    <p class="muted">На PCA зелёный — норма, красный — нарушение, серый — пограничное окно. Сходство вычисляется по всем 1024 признакам; расстояния на двумерной карте — лишь проекция. Тепловая карта сохраняет все измерения.</p>
+    <a href="generated/embedding-pilot/embedding-map.png" target="_blank"><img class="plot" src="generated/embedding-pilot/embedding-map.png" alt="PCA с цветом состояния и формой пары; матрица cosine similarity, сгруппированная по исходным видео"></a>
+  </section>
+  <details><summary>Как воспроизвести и как читать результат</summary>
+    <p>Модель: Video Swin B, предобученная на Kinetics-400. Без дообучения. Выход классификатора заменён на 1024 признака; векторы нормированы. Видеофрагменты и вычисления остаются локальными.</p>
+    <p>32 кадра с частотой 15 в секунду выбираются по ближайшим реальным PTS. Шаг сетки — 1 секунда. Короткая сторона уменьшается до 256 пикселей, затем берётся центральный квадрат 224 × 224. В каждой паре плееров можно открыть фактический центральный кадр входа модели: края кадра обрезаны.</p>
+    <p>Банк для основной оценки содержит только окна чистой записи. Проверяем нормальную часть и нарушение из другого исходного видео. Окна банка никогда не сравниваются сами с собой. Дополнительные сопоставленные эпизоды не участвуют в AUC. Отдельно убираем обе записи целевой пары из банка.</p>
+    <p>Нормальные префиксы — кандидаты по ручной разметке. Для X-20 исключены пересечения с 3.3–5 с, X-26 — с 8.5–9 с, X-4 — с 49–57 с. Позднее корректное действие не отменяет незавершённое нарушение.</p>
+    <p>Эта проверка не доказывает перенос на новую камеру или новый тип нарушения. Маленькие купюры, замок и предыстория операции могут быть потеряны. Оценка отличия не является вероятностью нарушения.</p>
+    <pre id="run-info"></pre>
+    <p><a href="generated/embedding-pilot/results.json">Метаданные, интервалы, PTS и оценки</a> · <a href="generated/embedding-pilot/embeddings.npy">Нормированные векторы</a> · <a href="https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.video.swin3d_b.html" target="_blank" rel="noreferrer">Документация модели</a></p>
+  </details>
+  <footer>Локальный исследовательский эксперимент · Ручные метки отделены от сходства модели · Исходные файлы и разметка не изменены</footer>
+</main>
+</body>
+</html>

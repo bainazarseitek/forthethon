@@ -1,0 +1,32 @@
+{
+ "model": "facebook/dinov2-base",
+ "revision": "f9e44c814b77203eaa57a6bdbbd535f21ede1415",
+ "weights_sha256": "d73036b56966966d07975d696bde331762f37297e2f095de8cea0040c3aa0841",
+ "shape": [
+  160,
+  16,
+  768
+ ],
+ "keys": [
+  "cls",
+  "patch"
+ ],
+ "normalization": {
+  "mean": [
+   0.485,
+   0.456,
+   0.406
+  ],
+  "std": [
+   0.229,
+   0.224,
+   0.225
+  ]
+ },
+ "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+ "gpu": "NVIDIA GeForce RTX 5090",
+ "torch": "2.7.1+cu128",
+ "script_sha256": "303dd6d817fddb87e072dc38898efb1769d5073e2d8ca44453dd03c4ad39828d",
+ "npz_sha256": "83becbc1b261416cb79ee5f061d9b3586284b552a042ec03291643075988a9bf",
+ "test_evaluated": false
+}

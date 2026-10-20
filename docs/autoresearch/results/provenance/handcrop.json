@@ -1,0 +1,97 @@
+{
+ "caption": "hands. banknotes.",
+ "box_threshold": 0.3,
+ "text_threshold": 0.25,
+ "nms_iou": 0.5,
+ "top_k": 2,
+ "pad_fraction": 0.2,
+ "tokens": [
+  "[CLS]",
+  "hands",
+  ".",
+  "bank",
+  "##notes",
+  ".",
+  "[SEP]"
+ ],
+ "hands_token_positions": [
+  1
+ ],
+ "banknotes_token_positions": [
+  3,
+  4
+ ],
+ "detection_rate": {
+  "window_frames": 0.9,
+  "unique_frames": 0.8966244725738397,
+  "windows_with_any_hand_frame": 0.9875,
+  "windows_with_all_frames_hand": 0.8,
+  "by_split": {
+   "train": 0.8851626016260162,
+   "validation": 0.9493243243243243
+  },
+  "by_label": {
+   "machine": 0.9278846153846154,
+   "hand_count": 1.0,
+   "document": 1.0,
+   "safe": 0.9840116279069767,
+   "laptop": 0.9982142857142857,
+   "leave": 0.28125
+  },
+  "banknote_frames": 0.1796875,
+  "crop_area_fraction_when_detected": {
+   "median": 0.011831845722186077,
+   "mean": 0.04629691989942528
+  }
+ },
+ "fidelity": {
+  "full_frame_cos_vs_saved_clipframes": {
+   "min": 0.9892863035202026,
+   "mean": 0.9963564872741699
+  },
+  "pixel_mae_vs_prepared_224": {
+   "mean": 0.6415430315497781,
+   "max": 0.6776081526360545
+  }
+ },
+ "shape": [
+  160,
+  16,
+  768
+ ],
+ "unique_frames": 1896,
+ "sheet_rows": [
+  3,
+  5,
+  6,
+  0,
+  14,
+  4,
+  9,
+  20
+ ],
+ "grounding_dino": {
+  "repo": "IDEA-Research/grounding-dino-base",
+  "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+  "sha256": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21",
+  "processor": "GroundingDinoImageProcessor"
+ },
+ "clip": {
+  "id": "openai/clip-vit-large-patch14",
+  "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+  "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb"
+ },
+ "detector_seconds": 238.74100923538208,
+ "total_seconds": 346.86593697592616,
+ "max_gpu_mib": 7824.5400390625,
+ "gpu": "NVIDIA GeForce RTX 5090",
+ "torch": "2.7.1+cu128",
+ "transformers": "5.19.0",
+ "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+ "clipframes_sha256": "84d9f9a04a9174911373328ad811b7485870aa9cd8b8ed3f1842277579003bf3",
+ "script_sha256": "048c0102a32f81f59cc104aad381eae7a0dd39920d7bf854a84abb2739d32163",
+ "npz_sha256": "c63c8d24834444d5f359eef7687864877e15e6ff78debd8083657d0721ab49a8",
+ "boxes_sha256": "59bbf602b1fa5a9a5e5b3de5a2f2c74120c0083bb8e2510538967f2e2d48b210",
+ "detections_sha256": "738cb23d87f45b3e3f35fe98a246740d69510a6f897b3bb88f733fce0d5b935d",
+ "test_evaluated": false
+}

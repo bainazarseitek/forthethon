@@ -1,0 +1,22 @@
+{
+  "annotation_source": "docs/annotations.md",
+  "window_seconds": 2.1333333333333333,
+  "stride_seconds": 1.0,
+  "frames_per_window": 32,
+  "sampling_fps": 15,
+  "label_policy": "Segment state, not action correctness. Label only windows fully inside a stated interval; all others are uncertain and excluded from AUC. Normal prefixes are candidates based on the supplied review, not independently certified golden data. Later correct actions do not clear an unresolved violation.",
+  "pairs": [
+    {"id": "safe", "title": "Сейф открыт / закрыт", "query": "X-20", "reference": "X-21", "normal_until": 3.3, "violation_from": 5.0, "reason": "3.3–5 с: переход от сейфа к столу. После 5 с сейф остаётся открытым во время работы."},
+    {"id": "cash", "title": "Деньги оставлены / убраны", "query": "X-26", "reference": "X-27", "normal_until": 8.5, "violation_from": 9.0, "reason": "После 9 с кассир уходит, деньги остаются на столе. 8.5–9 с исключены как граница."},
+    {"id": "clients", "title": "Деньги предыдущего клиента", "query": "X-4", "reference": "X-5", "normal_until": 49.0, "violation_from": 57.0, "reason": "49–57 с исключены: перекрывающиеся и спорные ранние границы в разметке. С 57 с входит следующий клиент; поздний правильный пересчёт не устраняет предыдущее нарушение."}
+  ],
+  "matched": [
+    {"id": "safe_retrieval", "pair": "safe", "title": "Достать деньги из сейфа", "query_start": 1.0, "reference_start": 1.0, "kind": "normal_control", "note": "Нормальное общее начало обоих роликов."},
+    {"id": "safe_count", "pair": "safe", "title": "Пересчёт: сейф открыт / закрыт", "query_start": 6.0, "reference_start": 8.5, "kind": "violation_comparison", "note": "Действие одинаковое; различается состояние сейфа за кассиром."},
+    {"id": "cash_count", "pair": "cash", "title": "Пересчёт до ухода", "query_start": 3.0, "reference_start": 3.0, "kind": "normal_control", "note": "Нормальное общее начало обоих роликов."},
+    {"id": "cash_exit", "pair": "cash", "title": "Кассир уходит", "query_start": 9.5, "reference_start": 18.2, "kind": "violation_comparison", "note": "В X-26 деньги на столе, в X-27 они предварительно убраны."},
+    {"id": "cash_absent", "pair": "cash", "title": "Кассира уже нет", "query_start": 15.0, "reference_start": 22.0, "kind": "violation_comparison", "note": "Почти статичное состояние: деньги на столе / стол пустой."},
+    {"id": "clients_count", "pair": "clients", "title": "Пересчёт денег первого клиента", "query_start": 20.0, "reference_start": 20.0, "kind": "normal_control", "note": "Допустимый этап первого обслуживания в обоих роликах."},
+    {"id": "clients_arrival", "pair": "clients", "title": "Приходит второй клиент", "query_start": 57.5, "reference_start": 63.5, "kind": "violation_comparison", "note": "Приблизительное сопоставление по ручным интервалам; одинаковый таймкод не означает одинаковую фазу движения."}
+  ]
+}

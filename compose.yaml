@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    image: fortethon:latest
+    ports:
+      - "8000:8000"
+    environment:
+      API_KEY: ${API_KEY:?set API_KEY in .env}
+      DETECTOR: ${DETECTOR:-stub}
+      THRESHOLD: ${THRESHOLD:-0.5}
+      THRESHOLD_OTHER: ${THRESHOLD_OTHER:-0.7}
+      APP_UPLOADS_ENABLED: ${APP_UPLOADS_ENABLED:-true}
+    volumes:
+      - jobs:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  jobs:

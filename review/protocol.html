@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forte · Действия, деньги и память</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="embeddings.css"><link rel="stylesheet" href="protocol.css">
+  <script src="generated/protocol-pilot/results.js" defer></script><script src="protocol.js" defer></script>
+</head>
+<body>
+<header><div><p class="eyebrow">FORTE / X-26 + X-27</p><h1>Что видно сейчас.<br>Что помнит система.</h1></div><a href="embeddings.html">← Первый опыт с видео</a></header>
+<main>
+  <p class="intro">Локальный CLIP на вашем GPU: кадры ↔ тексты действий, увеличенный участок стола и память наблюдений. Оба варианта получают одни и те же признаки. Ручная разметка используется только для сравнения результата.</p>
+  <p><a href="detections.html">Следующий опыт: отдельные детекторы денег и присутствия кассира →</a></p>
+  <p id="load-error" class="warning" hidden>Результатов пока нет. Сначала выполните эксперимент по инструкции в README.</p>
+  <div id="summary" class="metric-grid"></div>
+  <p id="conclusion" class="warning"></p>
+
+  <section class="panel" aria-labelledby="inspect-heading">
+    <div class="section-heading"><div><p class="eyebrow">01 / ПОСМОТРЕТЬ НА КОНКРЕТНОМ МОМЕНТЕ</p><h2 id="inspect-heading">Оценки следуют за видео</h2></div><label>Видео <select id="source"><option>X-26</option><option>X-27</option></select></label></div>
+    <div class="toolbar"><button id="play">▶ Воспроизвести</button><button id="prev" aria-label="Предыдущая оценка">←</button><label class="scrub">Время <input id="time" type="range" min="0" step="1" value="0"></label><button id="next" aria-label="Следующая оценка">→</button><output id="timestamp" aria-live="polite"></output></div>
+    <p id="play-error" class="warning" hidden>Не удалось воспроизвести видео. Попробуйте встроенные кнопки плеера.</p>
+    <div class="protocol-grid">
+      <div><video id="player" controls playsinline preload="metadata"></video><p id="manual" class="small muted"></p><p class="small muted">Подпись под видео — ручная разметка, не ответ модели.</p></div>
+      <div id="evidence">
+        <div class="patch-row"><div><canvas id="patch" width="90" height="70" aria-label="Исходный увеличенный участок стола"></canvas><p class="small muted">Участок стола</p></div><div><strong id="table-state"></strong><p id="memory-state" class="small"></p></div></div>
+        <div id="risk" class="risk-row"></div>
+        <p id="reason" class="small muted"></p>
+        <h3>Похожесть на описания действий</h3><div id="action-scores" class="score-list"></div>
+        <h3>Что находится на участке стола</h3><div id="table-scores" class="score-list"></div>
+        <p class="small muted">Полосы — cosine similarity. Оценки тревоги 0–1 — условная шкала, не вероятность нарушения. Серый ответ «неясно» означает малую разницу между описаниями.</p>
+      </div>
+    </div>
+    <div class="toolbar"><strong>Память наблюдённых действий:</strong><span id="history"></span></div>
+    <p id="expected" class="small muted"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="timeline-heading"><p class="eyebrow">02 / ВЕСЬ ХОД ОБЕИХ ОПЕРАЦИЙ</p><h2 id="timeline-heading">С памятью и без неё</h2>
+    <p class="muted">Сверху вниз: сходство с действиями; сходство участка стола с предметами; свидетельства денег и отсутствия кассира; итоговая тревога. Красная область — нарушение по ручной разметке. Порог 0.5 выбран до расчёта, не обучен на этих видео.</p>
+    <a href="generated/protocol-pilot/timelines.png" target="_blank"><img class="plot" src="generated/protocol-pilot/timelines.png" alt="Оценки действий, денег, присутствия кассира и тревоги во времени, два варианта памяти"></a>
+    <div class="table-scroll"><table id="comparison"><caption>Оценка на точках времени обеих записей</caption><thead><tr><th>Вариант</th><th>AUC</th><th>Найдены</th><th>Пропущены</th><th>Ложные тревоги</th><th>Первая тревога X-26</th><th>Первая тревога X-27</th></tr></thead><tbody></tbody></table></div>
+    <p class="small muted">Точки соседние и зависимы. Это разбор одной пары с известной камерой, не проверка переноса на новые записи. AUC измеряет порядок оценок, а не процент правильных ответов.</p>
+  </section>
+
+  <details><summary>Как работает память и что этот опыт не доказывает</summary>
+    <p>Нет требования проходить единственную последовательность. Все тексты оцениваются всегда; список ожидаемых действий служит подсказкой, не меняет визуальные оценки. Повторы и перестановки не вызывают тревогу сами по себе.</p>
+    <p>После двух уверенных наблюдений денег сохраняем свидетельство. При неясном кадре оно живёт до шести секунд с последнего подтверждения. Два уверенных наблюдения пустого участка сбрасывают его. «Похоже на закрытие сейфа» не означает, что деньги внутри или замок заперт. Отдельно проверяется, находится ли кассир у рабочего стола.</p>
+    <p>CLIP кодирует отдельные изображения. Для действий усредняются признаки кадров из последних двух секунд, поэтому модель не различает порядок кадров внутри окна. Шаг выборки — 0.5 с; решение — раз в секунду. Области кадра выбраны вручную для этой камеры. Проверка участка стола не обнаружит деньги в другом месте.</p>
+    <div class="comparison"><img class="plot" src="generated/protocol-pilot/X-26-regions.jpg" alt="Синий квадрат — сцена, оранжевый — участок стола, X-26"><img class="plot" src="generated/protocol-pilot/X-27-regions.jpg" alt="Одинаковые области для X-27"></div>
+    <p id="object-audit"></p><pre id="run-info"></pre>
+    <p><a href="generated/protocol-pilot/scores.csv">Все оценки CSV</a> · <a href="generated/protocol-pilot/results.json">Полные результаты и тексты</a> · <a href="generated/protocol-pilot/features.npz">Признаки кадров и текстов</a> · <a href="https://huggingface.co/openai/clip-vit-large-patch14" target="_blank" rel="noreferrer">Описание CLIP</a></p>
+  </details>
+  <footer>Локальный исследовательский опыт · Самостоятельный запуск на gpu-host, без API распознавания · Память не заменяет надёжное распознавание объектов</footer>
+</main>
+</body>
+</html>

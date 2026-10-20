@@ -1,0 +1,60 @@
+{
+  "models": {
+    "videomae": {
+      "id": "MCG-NJU/videomae-base",
+      "revision": "dc740ceda42fce44faed2ea03c6d447db72f6af9",
+      "weights_sha256": "bc053ca2840a038b1068269a4eec06ca569689e9a1ed9376a5b2b8a111be5290",
+      "parameters": 86227200,
+      "trainable_encoder_parameters": 0,
+      "frozen": true,
+      "dtype": "float32",
+      "model_load_seconds": 3.613329831000101,
+      "forward_seconds": 7.995355170999119,
+      "median_window_seconds": 0.049603323999690474,
+      "text_seconds": 0,
+      "total_seconds": 15.514940095000384,
+      "image_mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "image_std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "clip": {
+      "id": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "weights_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "parameters": 427616513,
+      "trainable_encoder_parameters": 0,
+      "frozen": true,
+      "dtype": "float32",
+      "model_load_seconds": 0.9446877350001159,
+      "forward_seconds": 56.96153905600022,
+      "median_window_seconds": 0.35616138099976524,
+      "text_seconds": 0.1821909800000867,
+      "total_seconds": 65.91457588799994,
+      "image_mean": [
+        0.48145466,
+        0.4578275,
+        0.40821073
+      ],
+      "image_std": [
+        0.26862954,
+        0.26130258,
+        0.27577711
+      ]
+    }
+  },
+  "gpu": "NVIDIA L4",
+  "torch": "2.7.1+cu128",
+  "transformers": "5.19.0",
+  "prepared_sha256": "4c8a82455dbf96decd62d0e399a61c90c399ee585dd0f4f6c4d959b11fe06c62",
+  "features_sha256": "b2cd0461037126479b37e9c3b2fc85cb99d7b5403a458cd06035de2511fd2d4c",
+  "script_sha256": "7df55252ef14fba1de5126875206bcf9e1dd901d569852e7d2b609e927b14567",
+  "view": "Source-pixel crop [0,240,440,640], then identical aspect-preserving bicubic resize/padding to 224; original source frames/PTS, native model normalization. Train and validation only.",
+  "pooling": "VideoMAE: mean of all final spatial-temporal tokens, no mask/decoder. CLIP: mean of L2 frame embeddings. L2 window vectors for both."
+}

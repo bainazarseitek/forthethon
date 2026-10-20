@@ -1,0 +1,105 @@
+{
+  "v1_clip": {
+    "models": {
+      "videomae": {
+        "id": "MCG-NJU/videomae-base",
+        "revision": "dc740ceda42fce44faed2ea03c6d447db72f6af9",
+        "weights_sha256": "bc053ca2840a038b1068269a4eec06ca569689e9a1ed9376a5b2b8a111be5290",
+        "parameters": 86227200,
+        "trainable_encoder_parameters": 0,
+        "frozen": true,
+        "dtype": "float32",
+        "model_load_seconds": 3.9356220103800297,
+        "forward_seconds": 3.2881447710096836,
+        "median_window_seconds": 0.019112423062324524,
+        "text_seconds": 0,
+        "total_seconds": 9.293559033423662,
+        "image_mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "image_std": [
+          0.229,
+          0.224,
+          0.225
+        ]
+      },
+      "clip": {
+        "id": "openai/clip-vit-large-patch14",
+        "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+        "weights_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+        "parameters": 427616513,
+        "trainable_encoder_parameters": 0,
+        "frozen": true,
+        "dtype": "float32",
+        "model_load_seconds": 0.7844505496323109,
+        "forward_seconds": 22.376741763204336,
+        "median_window_seconds": 0.1412523090839386,
+        "text_seconds": 0.16530726477503777,
+        "total_seconds": 26.552938912063837,
+        "image_mean": [
+          0.48145466,
+          0.4578275,
+          0.40821073
+        ],
+        "image_std": [
+          0.26862954,
+          0.26130258,
+          0.27577711
+        ]
+      }
+    },
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "torch": "2.7.1+cu128",
+    "transformers": "5.19.0",
+    "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+    "features_sha256": "507f520eaba8e11fb3e7c12748634ff7fbfa7307b98a54c27cdad8d7470e598c",
+    "script_sha256": "7df55252ef14fba1de5126875206bcf9e1dd901d569852e7d2b609e927b14567",
+    "view": "Identical full-frame aspect-preserving 224 padding, 16 PTS-sampled frames per 2 s window; native model normalization",
+    "pooling": "VideoMAE: mean of all final spatial-temporal tokens, no mask/decoder. CLIP: mean of L2 frame embeddings. L2 window vectors for both."
+  },
+  "v2": {
+    "model": {
+      "repo": "OpenGVLab/VideoMAE2",
+      "revision": "706cc172d65ebd4dedbee3f9c0183a93df9fa125",
+      "filename": "distill/vit_b_k710_dl_from_giant.pth",
+      "upstream_commit": "29eab1e8a588d1b3ec0cdec7b03a86cca491b74b",
+      "implementation_sha256": "d132c97369f25207e380e78c59294fd00b93d2f6aa0fb5c4ded19eff26a5a3cb",
+      "model": "vit_base_patch16_224",
+      "pretraining": "Official distilled ViT-base on K710, teacher vit_g_hybrid_pt_1200e_k710_ft; not a self-supervised-only matched-pretraining comparison with v1.",
+      "image_mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "image_std": [
+        0.229,
+        0.224,
+        0.225
+      ],
+      "timm": "1.0.22"
+    },
+    "weights_sha256": "8141a6955e0700d11bf15928fe6d61e5cfe482606fed8cfdddb1b922c0fd88ec",
+    "implementation_sha256": "d132c97369f25207e380e78c59294fd00b93d2f6aa0fb5c4ded19eff26a5a3cb",
+    "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+    "features_sha256": "e173e7737cda60fdb915ea6577a0fcafacb960961302fc168cff060314cd69b6",
+    "script_sha256": "0ccdea5241e7b78e40fe72dea8bc41bea14c41bfb413fec86e5d69fd7fc4e674",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "torch": "2.7.1+cu128",
+    "timm": "1.0.22",
+    "dtype": "float32",
+    "parameters": 86773190,
+    "trainable_encoder_parameters": 0,
+    "load_seconds": 3.4553001895546913,
+    "forward_seconds": 3.0962710827589035,
+    "total_seconds": 8.504278887063265,
+    "strict_weights": true,
+    "feature_head_equivalence_checked": true,
+    "pooling": "Official forward_features: mean of final patch tokens then learned fc_norm; classifier not used; L2 vector",
+    "view": "Unchanged cached full-frame 224 padding, identical 16 frames/2 s/PTS as v1 and CLIP; no test inputs",
+    "test_evaluated": false
+  },
+  "test_evaluated": false,
+  "script_sha256": "d6f4eada4de2a269ef6f1dd26fe1d83771d6d2808b6050375fff7387280d88ee"
+}

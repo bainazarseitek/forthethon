@@ -1,0 +1,925 @@
+{
+  "source": "docs/annotations.md",
+  "notes": [
+    "label_t_sec: метка организаторов (assets/open_labels.xlsx). primary: событие, которое совпадает с меткой",
+    "labeled: false значит нарушение есть на видео, но организаторы его не разметили. в eval не штраф за находку и не пропуск",
+    "для обучения и few-shot все события равноправные нарушения. labeled и verdict только для сверки с метками организаторов, модели их не показывать",
+    "в одном видео может быть несколько событий. при eval засчитывать попадание в любое событие видео",
+    "Х-47 побайтно совпадает с Х-4, Х-48 с Х-5. не класть копии одновременно в few-shot и в тест",
+    "время в секундах по pts кадра"
+  ],
+  "videos": [
+    {
+      "video": "X-1",
+      "file": "assets/videos/X-1.mov",
+      "verdict": "violation",
+      "label_t_sec": 22.0,
+      "events": [
+        {
+          "type_id": "cash_returned_without_act",
+          "labeled": true,
+          "t_start_sec": 20.0,
+          "t_end_sec": 22.8,
+          "key_t_sec": [
+            20.0
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "cash_hand_to_hand",
+          "labeled": true,
+          "t_start_sec": 22.3,
+          "t_end_sec": 23.3,
+          "key_t_sec": [
+            22.3
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "cash_received",
+        "client_arrives",
+        "document_handover",
+        "machine_count",
+        "machine_unload"
+      ]
+    },
+    {
+      "video": "X-2",
+      "file": "assets/videos/X-2.mov",
+      "verdict": "violation",
+      "label_t_sec": 10.0,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": true,
+          "t_start_sec": 10.0,
+          "t_end_sec": 10.0,
+          "key_t_sec": [
+            10.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "cash_received",
+        "client_arrives",
+        "hand_count",
+        "machine_count"
+      ]
+    },
+    {
+      "video": "Х-3",
+      "file": "assets/videos/Х-3.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_received",
+        "client_arrives",
+        "document_handover",
+        "document_return",
+        "hand_count",
+        "id_check",
+        "machine_count"
+      ]
+    },
+    {
+      "video": "Х-4",
+      "file": "assets/videos/Х-4.mov",
+      "verdict": "violation",
+      "label_t_sec": 57.0,
+      "events": [
+        {
+          "type_id": "previous_cash_on_desk",
+          "labeled": true,
+          "t_start_sec": 50.0,
+          "t_end_sec": 68.0,
+          "key_t_sec": [
+            57.0,
+            68.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "cash_received",
+        "client_arrives",
+        "client_leaves",
+        "document_handover",
+        "document_return",
+        "hand_count",
+        "id_check",
+        "machine_count"
+      ]
+    },
+    {
+      "video": "Х-5",
+      "file": "assets/videos/Х-5.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_received",
+        "cash_to_safe",
+        "client_arrives",
+        "client_leaves",
+        "document_handover",
+        "document_return",
+        "hand_count",
+        "id_check",
+        "machine_count"
+      ],
+      "pair": [
+        "Х-4"
+      ]
+    },
+    {
+      "video": "Х-8",
+      "file": "assets/videos/Х-8.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_to_safe",
+        "hand_count",
+        "journal_entry",
+        "machine_count",
+        "machine_unload"
+      ]
+    },
+    {
+      "video": "Х-10",
+      "file": "assets/videos/Х-10.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "hand_count",
+        "machine_count",
+        "machine_unload"
+      ]
+    },
+    {
+      "video": "Х-11",
+      "file": "assets/videos/Х-11.mov",
+      "verdict": "violation",
+      "label_t_sec": 18.0,
+      "events": [
+        {
+          "type_id": "workstation_left_unlocked",
+          "labeled": true,
+          "t_start_sec": 18.0,
+          "t_end_sec": 25.6,
+          "key_t_sec": [
+            18.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "safe_locked"
+      ]
+    },
+    {
+      "video": "Х-12",
+      "file": "assets/videos/Х-12.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "safe_locked",
+        "workstation_locked"
+      ],
+      "pair": [
+        "Х-11"
+      ]
+    },
+    {
+      "video": "Х-13",
+      "file": "assets/videos/Х-13.mov",
+      "verdict": "violation",
+      "label_t_sec": 47.0,
+      "events": [
+        {
+          "type_id": "stored_without_count",
+          "labeled": true,
+          "t_start_sec": 44.0,
+          "t_end_sec": 61.0,
+          "key_t_sec": [
+            46.5
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "bag_opened",
+        "safe_locked"
+      ],
+      "pair": [
+        "Х-14"
+      ]
+    },
+    {
+      "video": "Х-14",
+      "file": "assets/videos/Х-14.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "bag_opened",
+        "cash_to_safe",
+        "data_entry",
+        "machine_count"
+      ],
+      "pair": [
+        "Х-13"
+      ]
+    },
+    {
+      "video": "Х-15",
+      "file": "assets/videos/Х-15.mov",
+      "verdict": "violation",
+      "label_t_sec": 15.0,
+      "events": [
+        {
+          "type_id": "cash_unattended",
+          "labeled": true,
+          "t_start_sec": 14.5,
+          "t_end_sec": 20.9,
+          "key_t_sec": [
+            14.5
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "bag_sealed",
+        "safe_locked"
+      ]
+    },
+    {
+      "video": "Х-16",
+      "file": "assets/videos/Х-16.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "bag_handover",
+        "bag_seal_check",
+        "client_arrives",
+        "document_handover",
+        "document_return",
+        "id_check"
+      ]
+    },
+    {
+      "video": "Х-17",
+      "file": "assets/videos/Х-17.mov",
+      "verdict": "violation",
+      "label_t_sec": 7.0,
+      "events": [
+        {
+          "type_id": "bag_accepted_unchecked",
+          "labeled": true,
+          "t_start_sec": 7.3,
+          "t_end_sec": 12.0,
+          "key_t_sec": [
+            7.3
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "bag_handover",
+        "client_arrives"
+      ]
+    },
+    {
+      "video": "Х-18",
+      "file": "assets/videos/Х-18.mov",
+      "verdict": "violation",
+      "label_t_sec": 20.0,
+      "events": [
+        {
+          "type_id": "serving_two_clients",
+          "labeled": true,
+          "t_start_sec": 20.3,
+          "t_end_sec": 22.6,
+          "key_t_sec": [
+            20.3
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "client_arrives",
+        "document_handover",
+        "id_check"
+      ]
+    },
+    {
+      "video": "Х-19",
+      "file": "assets/videos/Х-19.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_to_safe",
+        "client_arrives",
+        "client_leaves",
+        "document_handover",
+        "document_return",
+        "id_check",
+        "safe_locked"
+      ],
+      "pair": [
+        "Х-18"
+      ]
+    },
+    {
+      "video": "Х-20",
+      "file": "assets/videos/Х-20.mov",
+      "verdict": "violation",
+      "label_t_sec": 5.0,
+      "events": [
+        {
+          "type_id": "safe_left_open",
+          "labeled": true,
+          "t_start_sec": 3.3,
+          "t_end_sec": 11.6,
+          "key_t_sec": [
+            5.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": []
+    },
+    {
+      "video": "Х-21",
+      "file": "assets/videos/Х-21.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "hand_count",
+        "machine_count",
+        "safe_locked"
+      ],
+      "pair": [
+        "Х-20"
+      ]
+    },
+    {
+      "video": "Х-22",
+      "file": "assets/videos/Х-22.mov",
+      "verdict": "violation",
+      "label_t_sec": 14.0,
+      "events": [
+        {
+          "type_id": "key_left_in_safe",
+          "labeled": true,
+          "t_start_sec": 14.0,
+          "t_end_sec": 21.0,
+          "key_t_sec": [
+            14.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "safe_locked",
+        "workstation_locked"
+      ],
+      "pair": [
+        "Х-23"
+      ]
+    },
+    {
+      "video": "Х-23",
+      "file": "assets/videos/Х-23.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "key_taken",
+        "safe_locked",
+        "workstation_locked"
+      ],
+      "pair": [
+        "Х-22"
+      ]
+    },
+    {
+      "video": "Х-24",
+      "file": "assets/videos/Х-24.mov",
+      "verdict": "violation",
+      "label_t_sec": 8.0,
+      "events": [
+        {
+          "type_id": "stamp_left_on_desk",
+          "labeled": true,
+          "t_start_sec": 8.0,
+          "t_end_sec": 14.7,
+          "key_t_sec": [
+            8.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-25"
+      ]
+    },
+    {
+      "video": "Х-25",
+      "file": "assets/videos/Х-25.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "items_to_safe",
+        "safe_locked"
+      ],
+      "pair": [
+        "Х-24"
+      ]
+    },
+    {
+      "video": "Х-26",
+      "file": "assets/videos/Х-26.mov",
+      "verdict": "violation",
+      "label_t_sec": 9.0,
+      "events": [
+        {
+          "type_id": "cash_unattended",
+          "labeled": true,
+          "t_start_sec": 9.0,
+          "t_end_sec": 19.8,
+          "key_t_sec": [
+            9.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-27"
+      ]
+    },
+    {
+      "video": "Х-27",
+      "file": "assets/videos/Х-27.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_to_safe",
+        "safe_locked"
+      ],
+      "pair": [
+        "Х-26"
+      ]
+    },
+    {
+      "video": "Х-28",
+      "file": "assets/videos/Х-28.mov",
+      "verdict": "violation",
+      "label_t_sec": 7.0,
+      "events": [
+        {
+          "type_id": "workstation_left_unlocked",
+          "labeled": true,
+          "t_start_sec": 6.0,
+          "t_end_sec": 16.5,
+          "key_t_sec": [
+            7.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-29"
+      ]
+    },
+    {
+      "video": "Х-29",
+      "file": "assets/videos/Х-29.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "workstation_locked"
+      ],
+      "pair": [
+        "Х-28"
+      ]
+    },
+    {
+      "video": "Х-30",
+      "file": "assets/videos/Х-30.mov",
+      "verdict": "violation",
+      "label_t_sec": 13.0,
+      "events": [
+        {
+          "type_id": "door_left_open",
+          "labeled": true,
+          "t_start_sec": 3.0,
+          "t_end_sec": 12.5,
+          "key_t_sec": [
+            3.0
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "second_person_in_cash_zone",
+          "labeled": true,
+          "t_start_sec": 12.5,
+          "t_end_sec": 18.8,
+          "key_t_sec": [
+            13.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-31"
+      ]
+    },
+    {
+      "video": "Х-31",
+      "file": "assets/videos/Х-31.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "door_closed"
+      ],
+      "pair": [
+        "Х-30"
+      ]
+    },
+    {
+      "video": "Х-32",
+      "file": "assets/videos/Х-32.mov",
+      "verdict": "violation",
+      "label_t_sec": 5.0,
+      "events": [
+        {
+          "type_id": "door_left_open",
+          "labeled": true,
+          "t_start_sec": 5.0,
+          "t_end_sec": 21.3,
+          "key_t_sec": [
+            5.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": []
+    },
+    {
+      "video": "Х-33",
+      "file": "assets/videos/Х-33.mov",
+      "verdict": "violation",
+      "label_t_sec": 6.0,
+      "events": [
+        {
+          "type_id": "door_left_open",
+          "labeled": true,
+          "t_start_sec": 5.5,
+          "t_end_sec": 10.0,
+          "key_t_sec": [
+            6.0
+          ],
+          "primary": true
+        },
+        {
+          "type_id": "second_person_in_cash_zone",
+          "labeled": true,
+          "t_start_sec": 10.0,
+          "t_end_sec": 14.3,
+          "key_t_sec": [
+            10.0
+          ],
+          "primary": false
+        }
+      ],
+      "ok_steps": []
+    },
+    {
+      "video": "Х-34",
+      "file": "assets/videos/Х-34.mov",
+      "verdict": "violation",
+      "label_t_sec": 13.0,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 5.5,
+          "t_end_sec": 8.5,
+          "key_t_sec": [
+            8.3
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "count_outside_client_view",
+          "labeled": true,
+          "t_start_sec": 12.2,
+          "t_end_sec": 17.7,
+          "key_t_sec": [
+            12.2
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-35"
+      ]
+    },
+    {
+      "video": "Х-35",
+      "file": "assets/videos/Х-35.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 5.0,
+          "t_end_sec": 8.5,
+          "key_t_sec": [
+            8.2
+          ],
+          "primary": false
+        }
+      ],
+      "ok_steps": [
+        "cash_to_safe",
+        "hand_count",
+        "machine_count"
+      ],
+      "pair": [
+        "Х-34"
+      ]
+    },
+    {
+      "video": "Х-37",
+      "file": "assets/videos/Х-37.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 7.0,
+          "t_end_sec": 8.6,
+          "key_t_sec": [
+            8.4
+          ],
+          "primary": false
+        }
+      ],
+      "ok_steps": [
+        "machine_count"
+      ],
+      "pair": [
+        "Х-34"
+      ]
+    },
+    {
+      "video": "Х-38",
+      "file": "assets/videos/Х-38.mov",
+      "verdict": "violation",
+      "label_t_sec": 33.0,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 4.5,
+          "t_end_sec": 6.5,
+          "key_t_sec": [
+            6.5
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "previous_cash_on_desk",
+          "labeled": true,
+          "t_start_sec": 32.0,
+          "t_end_sec": 59.0,
+          "key_t_sec": [
+            32.0
+          ],
+          "primary": true
+        },
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 35.5,
+          "t_end_sec": 37.3,
+          "key_t_sec": [
+            37.0
+          ],
+          "primary": false
+        }
+      ],
+      "ok_steps": [],
+      "pair": [
+        "Х-39"
+      ]
+    },
+    {
+      "video": "Х-39",
+      "file": "assets/videos/Х-39.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 5.5,
+          "t_end_sec": 7.4,
+          "key_t_sec": [
+            7.2
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "no_id_check",
+          "labeled": false,
+          "t_start_sec": 49.5,
+          "t_end_sec": 50.8,
+          "key_t_sec": [
+            50.4
+          ],
+          "primary": false
+        }
+      ],
+      "ok_steps": [
+        "cash_to_safe",
+        "machine_count"
+      ],
+      "pair": [
+        "Х-38"
+      ]
+    },
+    {
+      "video": "Х-40",
+      "file": "assets/videos/Х-40.mov",
+      "verdict": "violation",
+      "label_t_sec": 17.0,
+      "events": [
+        {
+          "type_id": "personal_items_in_cash_zone",
+          "labeled": true,
+          "t_start_sec": 8.0,
+          "t_end_sec": 25.3,
+          "key_t_sec": [
+            17.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "door_closed"
+      ],
+      "pair": [
+        "Х-43"
+      ]
+    },
+    {
+      "video": "Х-43",
+      "file": "assets/videos/Х-43.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "machine_count",
+        "rejects_checked"
+      ],
+      "pair": [
+        "Х-44"
+      ]
+    },
+    {
+      "video": "Х-44",
+      "file": "assets/videos/Х-44.mov",
+      "verdict": "violation",
+      "label_t_sec": 16.0,
+      "events": [
+        {
+          "type_id": "rejected_notes_unchecked",
+          "labeled": true,
+          "t_start_sec": 11.5,
+          "t_end_sec": 20.4,
+          "key_t_sec": [
+            15.5
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "machine_count"
+      ],
+      "pair": [
+        "Х-43",
+        "Х-45"
+      ]
+    },
+    {
+      "video": "Х-45",
+      "file": "assets/videos/Х-45.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "machine_count",
+        "rejects_checked"
+      ],
+      "pair": [
+        "Х-44"
+      ]
+    },
+    {
+      "video": "Х-46",
+      "file": "assets/videos/Х-46.mov",
+      "verdict": "violation",
+      "label_t_sec": 11.0,
+      "events": [
+        {
+          "type_id": "drink_in_cash_zone",
+          "labeled": true,
+          "t_start_sec": 10.5,
+          "t_end_sec": 19.1,
+          "key_t_sec": [
+            11.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": []
+    },
+    {
+      "video": "Х-47",
+      "file": "assets/videos/Х-47.mov",
+      "verdict": "violation",
+      "label_t_sec": 68.0,
+      "events": [
+        {
+          "type_id": "previous_cash_on_desk",
+          "labeled": true,
+          "t_start_sec": 50.0,
+          "t_end_sec": 64.0,
+          "key_t_sec": [
+            50.0
+          ],
+          "primary": false
+        },
+        {
+          "type_id": "cash_mixed_between_clients",
+          "labeled": true,
+          "t_start_sec": 68.0,
+          "t_end_sec": 72.7,
+          "key_t_sec": [
+            68.0
+          ],
+          "primary": true
+        }
+      ],
+      "ok_steps": [
+        "cash_received",
+        "hand_count"
+      ],
+      "same_file_as": "Х-4"
+    },
+    {
+      "video": "Х-48",
+      "file": "assets/videos/Х-48.mov",
+      "verdict": "clean",
+      "label_t_sec": null,
+      "events": [],
+      "ok_steps": [
+        "cash_received",
+        "cash_to_safe",
+        "client_arrives",
+        "client_leaves",
+        "document_handover",
+        "document_return",
+        "hand_count",
+        "id_check",
+        "machine_count"
+      ],
+      "pair": [
+        "Х-4"
+      ],
+      "same_file_as": "Х-5"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+ "shape": [
+  160,
+  8,
+  768
+ ],
+ "min_cosine_fcnorm_of_mean_raw_vs_saved": 0.9999998807907104,
+ "min_cosine_live_forward_features_vs_saved": 0.9999998807907104,
+ "min_cosine_mean_of_per_position_fcnorm_vs_saved": 0.9988573789596558,
+ "mean_cosine_mean_of_per_position_fcnorm_vs_saved": 0.9995877146720886,
+ "prepared_sha256": "146ddfad23a8853e069b5b452a96d2eb987350a7694d5eb16237a32468248c82",
+ "ref_sha256": "11f3d1cf1a6638478f395853f769ee88aa79cfd08e667f39f0360e7de5ec355a",
+ "weights_sha256": "8141a6955e0700d11bf15928fe6d61e5cfe482606fed8cfdddb1b922c0fd88ec",
+ "implementation_sha256": "d132c97369f25207e380e78c59294fd00b93d2f6aa0fb5c4ded19eff26a5a3cb",
+ "gpu": "NVIDIA L4",
+ "torch": "2.7.1+cu128",
+ "script_sha256": "ffe5d596ac696683c1a66d36669604cc5c85857e5a8138e1e9be2c775955bfe7",
+ "npz_sha256": "80bd7b315d7268c32360c142367a55474f90e4b6c9eca65e839ab7bc2d451c61",
+ "test_evaluated": false
+}

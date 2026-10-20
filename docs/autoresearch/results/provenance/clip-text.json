@@ -1,0 +1,11 @@
+{
+ "model": {
+  "id": "openai/clip-vit-large-patch14",
+  "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41"
+ },
+ "safetensors_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+ "torch": "2.7.1+cu128",
+ "script_sha256": "ef4c20272ca8daf18f691abe3eab473701f71ebdcdab79ad62302dd70dd4b1ae",
+ "n_prompts": 24,
+ "normalization": "text_projection(pooler_output), L2"
+}

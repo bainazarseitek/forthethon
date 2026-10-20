@@ -1,0 +1,37 @@
+{
+  "videos": ["X-26", "X-27"],
+  "model": "openai/clip-vit-large-patch14",
+  "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+  "sample_hz": 2,
+  "window_seconds": 2,
+  "decision_seconds": 1,
+  "scene_box": [0, 100, 384, 484],
+  "table_box": [175, 360, 265, 430],
+  "note": "Fixed boxes in 464x848 source pixels, manually selected for this camera. Table box is a monitored patch, not a money detector covering the entire desk. Parameters fixed before inference; no held-out calibration.",
+  "temperature": 0.02,
+  "evidence_margin": 0.02,
+  "confirm_steps": 2,
+  "alarm_threshold": 0.5,
+  "prompts": {
+    "actions": {
+      "count": ["A cashier is counting banknotes by hand at a desk.", "A person is sorting a stack of paper money with both hands."],
+      "put_table": ["A cashier is putting a stack of banknotes down on a desk.", "A person is placing cash on a wooden tabletop."],
+      "carry": ["A cashier is standing and carrying banknotes in her hand.", "A person is taking a stack of cash from the desk towards a cabinet."],
+      "store": ["A cashier is putting banknotes inside a safe.", "A person is placing a stack of money inside a metal cabinet."],
+      "close": ["A cashier is closing the door of a safe.", "A person is turning a key in the door of a metal cabinet."],
+      "leave": ["A cashier is walking away from the desk towards the exit.", "A person is opening a glass door and leaving the office."],
+      "idle": ["An unoccupied cashier workstation with an empty chair.", "An office desk with nobody sitting behind it."]
+    },
+    "table": {
+      "cash": ["A stack of banknotes lying on a wooden tabletop.", "Paper currency bills resting on a desk."],
+      "clear": ["A clear bare wooden tabletop.", "An empty patch of wooden desk surface."],
+      "occluded": ["Hands covering the surface of a wooden desk.", "A person's arms obscuring a tabletop."],
+      "paper": ["A paper receipt lying on a wooden desk.", "A small sheet of paper on a tabletop."]
+    },
+    "presence": {
+      "attending": ["A cashier sitting at the desk working with money.", "A person standing immediately behind the desk attending the tabletop."],
+      "away": ["An unattended desk while a person stands at the exit door.", "An unoccupied cashier desk with an empty chair."],
+      "unclear": ["The cashier workstation is hidden behind an obstruction.", "A blurry view of an office workstation."]
+    }
+  }
+}

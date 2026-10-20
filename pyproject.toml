@@ -1,0 +1,18 @@
+[project]
+name = "fortethon"
+version = "0.1.0"
+description = "Cash discipline video analysis service for the ForteBank case"
+requires-python = ">=3.12"
+dependencies = [
+    "av>=19.0.1",
+    "fastapi>=0.143.3",
+    "pillow>=13.0.0",
+    "python-multipart>=0.0.32",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.1.1",
+]

@@ -1,0 +1,9 @@
+.git
+.venv
+var
+assets
+tests
+docs
+scripts
+*.pdf
+.env

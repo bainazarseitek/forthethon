@@ -1,0 +1,40 @@
+[
+  {
+    "name": "videomae",
+    "repo": "MCG-NJU/videomae-base",
+    "revision": "dc740ceda42fce44faed2ea03c6d447db72f6af9",
+    "filename": "model.safetensors",
+    "sha256": "bc053ca2840a038b1068269a4eec06ca569689e9a1ed9376a5b2b8a111be5290",
+    "snapshot": true
+  },
+  {
+    "name": "clip",
+    "repo": "openai/clip-vit-large-patch14",
+    "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+    "filename": "model.safetensors",
+    "sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+    "snapshot": true
+  },
+  {
+    "name": "grounding_dino",
+    "repo": "IDEA-Research/grounding-dino-base",
+    "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+    "filename": "model.safetensors",
+    "sha256": "5548f844c928c4b6f411fa8cbcc2bfa8dbbba437cb1d513975519f93c2a9ed21",
+    "snapshot": true
+  },
+  {
+    "name": "videomaev2",
+    "repo": "OpenGVLab/VideoMAE2",
+    "revision": "706cc172d65ebd4dedbee3f9c0183a93df9fa125",
+    "filename": "distill/vit_b_k710_dl_from_giant.pth",
+    "sha256": "8141a6955e0700d11bf15928fe6d61e5cfe482606fed8cfdddb1b922c0fd88ec",
+    "snapshot": false
+  },
+  {
+    "name": "video_swin",
+    "url": "https://download.pytorch.org/models/swin3d_b_1k-24f7c7c6.pth",
+    "filename": "swin3d_b_1k-24f7c7c6.pth",
+    "sha256": "24f7c7c6fd97dd52439d72c2208e0785081811389185a4781405b482404e4b9b"
+  }
+]

@@ -1,0 +1,3 @@
+docs/baseline-results/**/*.json linguist-generated=true
+docs/baseline-results/**/*.csv linguist-generated=true
+docs/autoresearch/results/**/*.json linguist-generated=true

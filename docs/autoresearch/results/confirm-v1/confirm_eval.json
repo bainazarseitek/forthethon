@@ -1,0 +1,603 @@
+{
+ "protocol": "Pre-registered confirmation of the champion on confirm-v1 (fresh windows no experiment has used).\n\nProtocol (written before this script was run; run exactly once; does NOT touch ledger.jsonl):\n  Models:   candidates/siglip_late_clip.py (champion) vs candidates/baseline_clip.py (baseline), imported\n            unchanged, called via fit_predict(train, test).\n  Train:    the 160 frozen train+val windows (review/generated/action-5090/prepared.json) with\n            features.npz 'clip' and autoresearch features/siglip.npz 'frames' (key 'siglip:frames').\n  Test:     the 21 confirm-v1 windows (confirm_set.json) with confirm_features.npz ('clip',\n            'siglip:frames'); test dict has y=None and meta without label-derived fields.\n  Primary:  for every fresh window, train on the frozen windows EXCLUDING the fresh window's scenario\n            group (connected component of prepared.json pairs; unpaired videos are their own group).\n            Implemented per fresh group (one fit per group; fits are deterministic, so identical to\n            per-window fits).\n  Secondary: train on all 160 frozen windows.\n  Metrics:  macro F1 over the classes present in the fresh set (fixed list, zero_division=0;\n            predictions of absent classes count as errors), accuracy, per-class F1, 6x6 confusion\n            (rows = truth, cols = prediction, frozen class order), champion minus baseline.\n  Noise:    paired bootstrap over the fresh set's scenario groups, 2000 resamples, seed 20261017,\n            of delta macro F1 (same fixed class list) and delta accuracy; CI95 = 2.5/97.5 percentiles.\n  Decision (primary only): \"confirmed\" if delta macro F1 > 0 and CI95 lower > 0; \"consistent\" if\n            delta > 0 but CI includes 0; \"not confirmed\" if delta <= 0.\n",
+ "classes_present": [
+  "hand_count",
+  "machine",
+  "document",
+  "leave"
+ ],
+ "n": 21,
+ "groups": {
+  "X-10": 2,
+  "X-14": 8,
+  "X-15": 2,
+  "X-19": 1,
+  "X-39": 8
+ },
+ "frozen_windows_excluded_per_group": {
+  "X-10": 1,
+  "X-14": 23,
+  "X-15": 5,
+  "X-19": 12,
+  "X-39": 21
+ },
+ "models": {
+  "champion": "siglip_late_clip.py",
+  "baseline": "baseline_clip.py"
+ },
+ "protocols": {
+  "primary": {
+   "champion": {
+    "macro_f1": 0.7783,
+    "accuracy": 0.7619,
+    "correct": 16,
+    "per_class_f1": {
+     "hand_count": 0.286,
+     "machine": 0.828,
+     "document": 1.0,
+     "leave": 1.0
+    },
+    "confusion": [
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      5,
+      12,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+     ]
+    ]
+   },
+   "baseline": {
+    "macro_f1": 0.7667,
+    "accuracy": 0.8095,
+    "correct": 17,
+    "per_class_f1": {
+     "hand_count": 0.4,
+     "machine": 0.867,
+     "document": 1.0,
+     "leave": 0.8
+    },
+    "confusion": [
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      3,
+      13,
+      0,
+      0,
+      0,
+      1
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+     ]
+    ]
+   },
+   "delta": {
+    "macro_f1": 0.0117,
+    "macro_f1_ci95": [
+     -0.0833,
+     0.03
+    ],
+    "p_delta_le_0": 0.8465,
+    "accuracy": -0.0476,
+    "accuracy_ci95": [
+     -0.1071,
+     0.0
+    ]
+   },
+   "predictions": [
+    {
+     "video": "X-10",
+     "start": 0.625,
+     "truth": "machine",
+     "champion": "hand_count",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-10",
+     "start": 13.125,
+     "truth": "hand_count",
+     "champion": "hand_count",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 48.125,
+     "truth": "machine",
+     "champion": "hand_count",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 57.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 65.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 74.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 83.125,
+     "truth": "machine",
+     "champion": "hand_count",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 92.125,
+     "truth": "machine",
+     "champion": "hand_count",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 100.125,
+     "truth": "machine",
+     "champion": "hand_count",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 109.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-15",
+     "start": 17.125,
+     "truth": "leave",
+     "champion": "leave",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-15",
+     "start": 18.125,
+     "truth": "leave",
+     "champion": "leave",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-39",
+     "start": 8.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 11.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 13.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 16.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 19.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 22.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 24.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 27.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-19",
+     "start": 54.125,
+     "truth": "document",
+     "champion": "document",
+     "baseline": "document"
+    }
+   ]
+  },
+  "secondary": {
+   "champion": {
+    "macro_f1": 0.7097,
+    "accuracy": 0.7619,
+    "correct": 16,
+    "per_class_f1": {
+     "hand_count": 0.0,
+     "machine": 0.839,
+     "document": 1.0,
+     "leave": 1.0
+    },
+    "confusion": [
+     [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      13,
+      0,
+      0,
+      4,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+     ]
+    ]
+   },
+   "baseline": {
+    "macro_f1": 0.7917,
+    "accuracy": 0.8095,
+    "correct": 17,
+    "per_class_f1": {
+     "hand_count": 0.5,
+     "machine": 0.867,
+     "document": 1.0,
+     "leave": 0.8
+    },
+    "confusion": [
+     [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      2,
+      13,
+      1,
+      0,
+      0,
+      1
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      2
+     ]
+    ]
+   },
+   "delta": {
+    "macro_f1": -0.082,
+    "macro_f1_ci95": [
+     -0.2485,
+     0.0
+    ],
+    "p_delta_le_0": 0.9925,
+    "accuracy": -0.0476,
+    "accuracy_ci95": [
+     -0.1071,
+     0.0
+    ]
+   },
+   "predictions": [
+    {
+     "video": "X-10",
+     "start": 0.625,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-10",
+     "start": 13.125,
+     "truth": "hand_count",
+     "champion": "machine",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 48.125,
+     "truth": "machine",
+     "champion": "safe",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 57.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 65.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 74.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 83.125,
+     "truth": "machine",
+     "champion": "safe",
+     "baseline": "hand_count"
+    },
+    {
+     "video": "X-14",
+     "start": 92.125,
+     "truth": "machine",
+     "champion": "safe",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-14",
+     "start": 100.125,
+     "truth": "machine",
+     "champion": "safe",
+     "baseline": "laptop"
+    },
+    {
+     "video": "X-14",
+     "start": 109.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-15",
+     "start": 17.125,
+     "truth": "leave",
+     "champion": "leave",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-15",
+     "start": 18.125,
+     "truth": "leave",
+     "champion": "leave",
+     "baseline": "leave"
+    },
+    {
+     "video": "X-39",
+     "start": 8.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 11.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 13.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 16.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 19.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 22.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 24.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-39",
+     "start": 27.125,
+     "truth": "machine",
+     "champion": "machine",
+     "baseline": "machine"
+    },
+    {
+     "video": "X-19",
+     "start": 54.125,
+     "truth": "document",
+     "champion": "document",
+     "baseline": "document"
+    }
+   ]
+  }
+ },
+ "decision": "consistent"
+}

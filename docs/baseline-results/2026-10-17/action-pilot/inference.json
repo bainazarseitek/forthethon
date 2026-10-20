@@ -1,0 +1,60 @@
+{
+  "models": {
+    "videomae": {
+      "id": "MCG-NJU/videomae-base",
+      "revision": "dc740ceda42fce44faed2ea03c6d447db72f6af9",
+      "weights_sha256": "bc053ca2840a038b1068269a4eec06ca569689e9a1ed9376a5b2b8a111be5290",
+      "parameters": 86227200,
+      "trainable_encoder_parameters": 0,
+      "frozen": true,
+      "dtype": "float32",
+      "model_load_seconds": 3.751408010999967,
+      "forward_seconds": 11.459661634999975,
+      "median_window_seconds": 0.04983874699996704,
+      "text_seconds": 0,
+      "total_seconds": 19.765741801000104,
+      "image_mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "image_std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "clip": {
+      "id": "openai/clip-vit-large-patch14",
+      "revision": "32bd64288804d66eefd0ccbe215aa642df71cc41",
+      "weights_sha256": "a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb",
+      "parameters": 427616513,
+      "trainable_encoder_parameters": 0,
+      "frozen": true,
+      "dtype": "float32",
+      "model_load_seconds": 0.9054490729999998,
+      "forward_seconds": 81.54943423799818,
+      "median_window_seconds": 0.35707780749999074,
+      "text_seconds": 0.14764829899991128,
+      "total_seconds": 91.03100728699997,
+      "image_mean": [
+        0.48145466,
+        0.4578275,
+        0.40821073
+      ],
+      "image_std": [
+        0.26862954,
+        0.26130258,
+        0.27577711
+      ]
+    }
+  },
+  "gpu": "NVIDIA L4",
+  "torch": "2.7.1+cu128",
+  "transformers": "5.19.0",
+  "prepared_sha256": "464d6e8a740b0c12342d1b2c7b164cdd2634d5e65c21d32ca0bf6a9a4a6ecf5f",
+  "features_sha256": "dffa75be91e37775cb8453a638336c66960f043157c577c4a9e05a5916f96496",
+  "script_sha256": "7dbfc3860a628070f4190c4f66edb255ba62cd2b974364e790f69d2ebc0a0e79",
+  "view": "Identical full-frame aspect-preserving 224 padding, 16 PTS-sampled frames per 2 s window; native model normalization",
+  "pooling": "VideoMAE: mean of all final spatial-temporal tokens, no mask/decoder. CLIP: mean of L2 frame embeddings. L2 window vectors for both."
+}
