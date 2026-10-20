@@ -18,6 +18,16 @@ This repository is the collaborative result of a three-person team’s participa
 
 The output is decision support, not a final legal or disciplinary conclusion. Events that cannot be verified from visible evidence should be reviewed by a person.
 
+## Pitch screenshots
+
+These slides from our Datathon 26 presentation show how the service links a video event to a rule, how it performed on the 42 challenge videos, and how a reviewer can correct a missed finding. The evaluation reflects the challenge dataset and is not a measure of performance on new bank footage.
+
+![Pitch slide showing the event, model observation, rule, and regulatory reference](docs/screenshots/pitch-decision-path.png)
+
+![Pitch slide showing the verdict evaluation across 42 challenge videos](docs/screenshots/pitch-evaluation.png)
+
+![Pitch slide showing the human reviewer workflow for adding a missed finding](docs/screenshots/pitch-reviewer-workflow.png)
+
 ## Architecture
 
 ```text
